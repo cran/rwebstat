@@ -1,0 +1,14 @@
+7cc8bcfb79b93984afaecf5c435e60f7 *DESCRIPTION
+61a52fba7bde3800afc3289a47e4d9dd *NAMESPACE
+e1b3ebfc9432d81298a8ea0fcab1af85 *R/config_proxy_bdf.R
+7ca9459709cb03006d5ab13a96e9a18d *R/internal_fctions.R
+2cc28887c578c38c51a91280f198fe1a *R/metadata.R
+4c1833fc706588ba40701bbf78e790c4 *R/w_data.R
+17f1d5b8a2b26610b3d35838141e3c19 *R/w_dataset_list.R
+14dfc825a9c2138e108309697d442cc5 *R/w_series_list.R
+b4251f6b14e17ef4988108aa06797fd5 *README.md
+c3dad50af8f7dd4ea450c32ac250c46c *man/proxy_bdf.Rd
+6289e38947810c95a1d9a3b23a440010 *man/w_data.Rd
+1388d8f97c935d8729e986362441b7e4 *man/w_datasets.Rd
+06ebc5f54d2776f07e8c417e81d43c9a *man/w_meta.Rd
+41f3234686fe73ba80efef3c8431f2bc *man/w_series_list.Rd
