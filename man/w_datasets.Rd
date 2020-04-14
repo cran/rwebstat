@@ -4,10 +4,13 @@
 \alias{w_datasets}
 \title{List all the available datasets from Webstat (codes and names) in a table. No arguments.}
 \usage{
-w_datasets(language = "fr", client_ID)
+w_datasets(language = "fr",
+  base_url = "https://api.webstat.banque-france.fr/webstat-", client_ID)
 }
 \arguments{
 \item{language}{Optional. String. Defaults to "fr" (French). The only other available option is "en" (English). Determines the language of the metadata. Your Webstat "App" must be subscribed to the API in this language or you'll get a 501 http error.}
+
+\item{base_url}{Optional. String. Defaults to "https://api.webstat.banque-france.fr/webstat-". For internal testing purposes only.}
 
 \item{client_ID}{Optional. String. If you do not specify it when calling the function, it will check if a global variable called ".GlobalEnv$webstat_client_ID exists and use it. If not, you will be prompted. The easiest way is to save the client ID as a string in ".GlobalEnv$webstat_client_ID".}
 }

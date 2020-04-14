@@ -1,5 +1,38 @@
-# create url string to request webstat API
-make_url <- function(dataset_name, series_name = NA, startPeriod = NA, endPeriod = NA, 
+# create url string to request webstat API : dataset list
+make_url_dataset_list <- function(language="fr",base_url="https://api.webstat.banque-france.fr/webstat-",format = "csv") {
+  api_base_url <- paste(base_url,language,"/v1/",sep="")
+  api_fun <- "catalogue/"
+  format <- paste0("?format=",format)
+  w_url <- paste0(api_base_url,
+                  api_fun,format)
+  return(w_url)
+}
+
+# create url string to request webstat API : structure
+make_url_structure <- function(dataset_name,language="fr",base_url="https://api.webstat.banque-france.fr/webstat-",option="light") {
+  api_base_url <- paste(base_url,language,"/v1/",sep="")
+  api_fun <- "datastructure/"
+  format <- "?format=json"
+  detail <- paste0("&detail=",option)
+  w_url <- paste0(api_base_url,api_fun,dataset_name,format,detail)
+}
+
+# create url string to request webstat API : series_list
+make_url_series_list <- function(dataset_name,language="fr",base_url="https://api.webstat.banque-france.fr/webstat-",format = "csv") {
+  if (missing(dataset_name)) {
+    stop("Dataset is missing")
+  }
+  # Build API URL "w_url" for the request
+  api_base_url <- paste(base_url,language,"/v1/",sep="")
+  api_fun <- "catalogue/"
+  format <- paste0("?format=",format)
+  w_url <- paste0(api_base_url,
+                  api_fun,dataset_name,format)
+  return(w_url)
+}
+
+# create url string to request webstat API : data
+make_url_data <- function(dataset_name, series_name = NA, startPeriod = NA, endPeriod = NA, 
                      firstNObs = NA, lastNObs = NA, language = "fr", format = NULL, 
                      base_url = "https://api.webstat.banque-france.fr/webstat-") 
 {
@@ -152,7 +185,7 @@ parse_json <- function(req) {
     results_values <- cbind(results_values,values)
     result_meta <- cbind(result_meta,w_meta(df[[i]])[,2])
     series_names <- cbind(series_names,names(df[[i]])[2])
-    }
+  }
   
   # fill names and attributes
   attr(results_values,"metadata") <- result_meta
@@ -211,4 +244,35 @@ set_client_id <- function() {
     client_ID <- readline()
     return(client_ID)
   }
+}
+
+# check if client_ID exists, if not set it (with previous function set_client_id)
+check_client_id <- function(client_ID) {
+  # check client_ID
+  if(missing(client_ID)) {
+    if(exists("webstat_client_ID")) {
+      client_ID <-  webstat_client_ID
+    } else {
+      client_ID <- set_client_id()
+    }
+    webstat_client_ID <-  NULL
+  }
+  return(client_ID)
+}
+
+# replace odd characters in a vector
+rid_odd_character <- function(char_vect="",odd_char="\uFEFF",replacement="") {
+  str_replace_all(char_vect,"\uFEFF",replacement)
+}
+
+# set csv separator wrt the language choosen
+set_sep_lg <- function(language="fr") { 
+  if (language == "en") { 
+    sep_lg = ","
+  } else if (language == "fr") { 
+    sep_lg = ";"
+  } else { 
+    stop("language must be \"fr\" or \"en\"")  
+  }
+  return(sep_lg)
 }

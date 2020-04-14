@@ -7,7 +7,7 @@
 #' @section Identification:
 #' You should declare your Webstat client ID in a global "webstat_client_ID" variable. Alternatively, you can enter your client ID as a parameter or enter it when prompted.
 #'
-#' @param dataset_name Mandatory. String (must be entered between quotes.) The datasets codes can be determined using the w_datasets() function.
+#' @param dataset_name Optional. String (must be entered between quotes.) The datasets codes can be determined using the w_datasets() function.
 #' @param series_name Optional. String (must be entered between quotes.) The series names can be found using the w_series(dataset) function. Wildcarding is supported by replacing one (or several) dimensions by the "*" character. At least one dimension must be specified.
 #' Example: "M.USD.EUR.SP00.E" : US dollar exchange rate against the Euro, monthly
 #' Example: "*.*.EUR.SP00.E" : All available exchange rates against the Euro, all available frequencies
@@ -17,7 +17,7 @@
 #' @param lastNObs Optional. String or Numeric. Maximum number of observations counting back from the most recent observation
 #' @param language Optional. String. Defaults to "fr" (French). The only other available option is "en" (English). Determines the language of the metadata. Your Webstat "App" must be subscribed to the API in this language (or both languages) or you'll get a 501 http error.
 #' @param format Optional. String. Defaults to "json".The only other available option is "csv". The "json" option gives a better and cleaner results (POSIX dates, etc). "csv" files are smaller and could be used to request large datasets that generate timeouts. Dataframes might then have to be cleaned manually.
-#' @param base_url Optional. String. Defaults to "https://api.webstat.banque-france.fr/webstat-". For testing purposes.
+#' @param base_url Optional. String. Defaults to "https://api.webstat.banque-france.fr/webstat-". For internal testing purposes only.
 #' @param client_ID Optional. String. If you do not specify it when calling the function, it will check if a global variable called "webstat_client_ID" exists and use it. If not, you will be prompted. The easiest way is to save the client ID as a string in a "webstat_client_ID" global variable.
 #' 
 #' @section Period formats:
@@ -34,6 +34,8 @@
 #' \donttest{
 #' ## Request the US Dollar monthly exchange rates in Euro
 #' w_data(dataset_name = "EXR", series_name = "M.USD.EUR.SP00.E")
+#' or
+#' w_data("EXR.M.USD.EUR.SP00.E")
 #'
 #' ## Request the US Dollar monthly exchange rates in Euro, from May 2017 to April 2018
 #' w_data(dataset_name = "EXR", series_name = "M.USD.EUR.SP00.E",
@@ -69,23 +71,34 @@
 #' @import readr
 #' @import getPass
 #' @export
-
-w_data <- function (dataset_name, series_name = NA, startPeriod = NA, endPeriod = NA, 
+w_data <- function (dataset_name = NA, series_name = NA, startPeriod = NA, endPeriod = NA, 
           firstNObs = NA, lastNObs = NA, language = "fr", format="json", 
           base_url = "https://api.webstat.banque-france.fr/webstat-", client_ID) 
 {
-  
-  # check client_ID
-  if(missing(client_ID)) {
-    if(exists("webstat_client_ID")) {
-      client_ID <-  webstat_client_ID
+  # check if dataset is in series_name
+  if (is.na(dataset_name)&is.na(series_name)) {
+    stop("'dataset_name and/or 'series_name' arguments must be fill'")
+  } else if (is.na(dataset_name)) {
+    split_vect <- unlist(strsplit(series_name,"\\."))
+    if (length(split_vect)>1) {
+      dataset_name <- split_vect[1]
+      series_name <- paste(split_vect[2:length(split_vect)],collapse = ".")
     } else {
-      client_ID <- set_client_id()
+      stop("'series_name' argument is not good, must be like 'EXR.M.USD.EUR.SP00.E'")
     }
-    webstat_client_ID <-  NULL
+  } else if (is.na(series_name)) {
+    split_vect <- unlist(strsplit(dataset_name,"\\."))
+    if (length(split_vect)>1) {
+      dataset_name <- split_vect[1]
+      series_name <- paste(split_vect[2:length(split_vect)],collapse = ".")
+    }
   }
-
-  url <- make_url(dataset_name = dataset_name, series_name = series_name, format=format,
+  
+  # check and set client_ID
+  client_ID <- check_client_id(client_ID)
+  
+  # Get content from request
+  url <- make_url_data(dataset_name = dataset_name, series_name = series_name, format=format,
                   startPeriod = startPeriod, endPeriod = endPeriod, firstNObs = firstNObs,
                   lastNObs = lastNObs, language = language, base_url = base_url)
   req <- get_data(url, client_ID)

@@ -4,7 +4,8 @@
 \alias{w_series_list}
 \title{List the available series from a dataset.}
 \usage{
-w_series_list(dataset_name, language = "fr", client_ID)
+w_series_list(dataset_name, language = "fr", client_ID,
+  base_url = "https://api.webstat.banque-france.fr/webstat-")
 }
 \arguments{
 \item{dataset_name}{Mandatory. String (Must be between quotes.) The datasets codes can be determined with the w_datasets() function.}
@@ -12,6 +13,8 @@ w_series_list(dataset_name, language = "fr", client_ID)
 \item{language}{Optional. String. Defaults to "fr" (French). The only other available option is "en" (English). Determines the language of the metadata. Your Webstat "App" must be subscribed to the API in this language (or both) or you'll get a 501 http error.}
 
 \item{client_ID}{Optional. String. If you do not specify it when calling the function, it will check if a global variable called ".GlobalEnv$webstat_client_ID exists and use it. If not, you will be prompted. The easiest way is to save the client ID as a string in ".GlobalEnv$webstat_client_ID".}
+
+\item{base_url}{Optional. String. Defaults to "https://api.webstat.banque-france.fr/webstat-". For internal testing purposes only.}
 }
 \value{
 A data frame listing all the series from the requested dataset with their codes, titles and dimensions.
