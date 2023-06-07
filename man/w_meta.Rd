@@ -16,10 +16,10 @@ dataframe
 Get metadata from a dataframe returned by w_data function
 }
 \examples{
-
 \dontrun{
 ## Request the US Dollar monthly exchange rates in Euro
-df = w_data(dataset_name = "EXR", series_name = "M.USD.EUR.SP00.E")
-meta = w_meta(df)
+df <- w_data(dataset_name = "EXR", series_name = "M.USD.EUR.SP00.E")
+meta <- w_meta(df)
 }
+
 }

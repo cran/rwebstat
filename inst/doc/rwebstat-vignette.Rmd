@@ -12,8 +12,8 @@ output:
     includes:
       in_header: header.html
 vignette: >
-  %\VignetteIndexEntry{rwebstat} 
-  %\VignetteEngine{knitr::rmarkdown} 
+  %\VignetteIndexEntry{rwebstat}
+  %\VignetteEngine{knitr::knitr}
   %\VignetteEncoding{UTF-8}
   %\VignetteDepends{kableExtra,magrittr,htmltools}
 ---
@@ -56,14 +56,14 @@ readr::write_lines(htmlhead, path = "header.html") }
 
 # Introduction
 
-The [rwebstat](https://CRAN.R-project.org/package=rwebstat) package was created to facilitate access to the [webstat API](https://developer.webstat.banque-france.fr/). All the data are available on [Webstat](http://webstat.banque-france.fr/en/), the official external data provider website of [Banque de France](https://www.banque-france.fr/).
+The [rwebstat](https://CRAN.R-project.org/package=rwebstat) package was created to facilitate access to the [webstat API](https://developer.webstat.banque-france.fr/). All the data are available on [Webstat](https://webstat.banque-france.fr/en/), the official external data provider website of [Banque de France](https://www.banque-france.fr/).
 
 The first version was published on CRAN 2019-05-24.
 
 ## Requirement
 The first step is to register on the API at  [link](https://developer.webstat.banque-france.fr/user/register). 
 
-You can find operating procedure at these links ( [fr](http://webstat.banque-france.fr/Portail_API/Webstat_API_FR.pdf) and [en](http://webstat.banque-france.fr/Portail_API/Webstat_API_EN.pdf) )
+You can find operating procedure at these links ( [fr](https://webstat.banque-france.fr/Portail_API/Webstat_API_FR.pdf) and [en](https://webstat.banque-france.fr/Portail_API/Webstat_API_EN.pdf) )
 
 Once done, you have to login and create an App which will give you an **API key** (personal Client ID). 
 
@@ -73,7 +73,7 @@ webstat_client_ID <- "3141592-65359-26535"
 ```
 
 ```{r message=FALSE, warning=FALSE, include=FALSE,eval=NOT_CRAN}
-webstat_client_ID <- "40f07568-b031-455d-8eed-2ea2fb642db8"
+webstat_client_ID <- "300b933e-896f-4be2-b474-769894a56605"
 ```
 
 ```{r message=FALSE, warning=FALSE, include=FALSE,eval=NOT_CRAN}
@@ -116,7 +116,7 @@ We can easily recover Datasets and Series catalogues :
 
 ### Datasets
 
-[Webstat](http://webstat.banque-france.fr/en/) offers more than 40 Datasets. The <code>w_datasets()</code> function returns the datasets catalogue :
+[Webstat](https://webstat.banque-france.fr/en/) offers more than 40 Datasets. The <code>w_datasets()</code> function returns the datasets catalogue :
 
 ```{r, message=FALSE,warning=FALSE,eval=NOT_CRAN}
 datasets <- w_datasets("en") # function call
@@ -131,7 +131,7 @@ datasets %>%
 
 ### Series
 
-[Webstat](http://webstat.banque-france.fr/en/) corrently offers more than 40.000 Series. The <code>w_series_list()</code> function returns the series catalogue.
+[Webstat](https://webstat.banque-france.fr/en/) corrently offers more than 40.000 Series. The <code>w_series_list()</code> function returns the series catalogue.
 
 For example, we ask the **EXR** dataset catalogue (only top rows are displayed here) :
 

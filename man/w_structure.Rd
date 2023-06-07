@@ -4,8 +4,13 @@
 \alias{w_structure}
 \title{Get the structure of a dataset}
 \usage{
-w_structure(dataset_name, language = "fr", option = "light", client_ID,
-  base_url = "https://api.webstat.banque-france.fr/webstat-")
+w_structure(
+  dataset_name,
+  language = "fr",
+  option = "light",
+  client_ID,
+  base_url = "https://api.webstat.banque-france.fr/webstat-"
+)
 }
 \arguments{
 \item{dataset_name}{Mandatory. String (must be entered between quotes.) The datasets codes can be determined using the w_datasets() function.}

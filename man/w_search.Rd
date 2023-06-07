@@ -4,9 +4,16 @@
 \alias{w_search}
 \title{Search keyword inside dataset catalogue or series catalogue}
 \usage{
-w_search(dataset_name, keyword = "", language = "fr", client_ID,
+w_search(
+  dataset_name,
+  keyword = "",
+  language = "fr",
+  client_ID,
   base_url = "https://api.webstat.banque-france.fr/webstat-",
-  ignore.case = TRUE, fixed = FALSE, ...)
+  ignore.case = TRUE,
+  fixed = FALSE,
+  ...
+)
 }
 \arguments{
 \item{dataset_name}{Optional. String (must be entered between quotes.) The datasets codes can be determined using the w_datasets() function.}
@@ -33,15 +40,15 @@ Search keyword inside dataset catalogue or series catalogue
 }
 \examples{
 \dontrun{
-# find Danish exchange rate code series (fr & en) : 
-w_search("EXR",keyword="danoise",fixed=TRUE)
-w_search("EXR",keyword="Danish",fixed=TRUE,language="en")
+# find Danish exchange rate code series (fr & en) :
+w_search("EXR", keyword = "danoise", fixed = TRUE)
+w_search("EXR", keyword = "Danish", fixed = TRUE, language = "en")
 
 # find datasets with keyword :
-w_search(keyword="Emploi",fixed=TRUE)
-w_search(keyword="Interest Rates",language="en",fixed=TRUE)
+w_search(keyword = "Emploi", fixed = TRUE)
+w_search(keyword = "Interest Rates", language = "en", fixed = TRUE)
 
 # regexp can also be used - find series starting with "Monetary"
-w_search(keyword="^Monetary",language="en")
+w_search(keyword = "^Monetary", language = "en")
 }
 }

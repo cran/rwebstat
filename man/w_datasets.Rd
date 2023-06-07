@@ -4,8 +4,11 @@
 \alias{w_datasets}
 \title{List all the available datasets from Webstat (codes and names) in a table. No arguments.}
 \usage{
-w_datasets(language = "fr",
-  base_url = "https://api.webstat.banque-france.fr/webstat-", client_ID)
+w_datasets(
+  language = "fr",
+  base_url = "https://api.webstat.banque-france.fr/webstat-",
+  client_ID
+)
 }
 \arguments{
 \item{language}{Optional. String. Defaults to "fr" (French). The only other available option is "en" (English). Determines the language of the metadata. Your Webstat "App" must be subscribed to the API in this language or you'll get a 501 http error.}
@@ -26,18 +29,16 @@ You should declare your Webstat client ID in a global "webstat_client_ID" variab
 }
 
 \examples{
-\donttest{
+\dontrun{
 ## Request the dataset catalogue
 w_datasets()
 
 ## Request the dataset catalogue, in English
 w_datasets(language = "en")
 
-\dontrun{
 ## Your client ID can be entered as a parameter as follows or saved
 ## in a global variable named "webstat_client_ID" in order to reuse it.
-w_datasets(client_ID = "1234abcd-12ab-12ab-12ab-123456abcdef") 
-}
+w_datasets(client_ID = "1234abcd-12ab-12ab-12ab-123456abcdef")
 }
 
 }

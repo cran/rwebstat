@@ -4,10 +4,18 @@
 \alias{w_data}
 \title{Request data from a \href{https://developer.webstat.banque-france.fr/}{Webstat} dataset.}
 \usage{
-w_data(dataset_name = NA, series_name = NA, startPeriod = NA,
-  endPeriod = NA, firstNObs = NA, lastNObs = NA, language = "fr",
+w_data(
+  dataset_name = NA,
+  series_name = NA,
+  startPeriod = NA,
+  endPeriod = NA,
+  firstNObs = NA,
+  lastNObs = NA,
+  language = "fr",
   format = "json",
-  base_url = "https://api.webstat.banque-france.fr/webstat-", client_ID)
+  base_url = "https://api.webstat.banque-france.fr/webstat-",
+  client_ID
+)
 }
 \arguments{
 \item{dataset_name}{Optional. String (must be entered between quotes.) The datasets codes can be determined using the w_datasets() function.}
@@ -60,15 +68,17 @@ You should declare your Webstat client ID in a global "webstat_client_ID" variab
 }
 
 \examples{
-\donttest{
+\dontrun{
 ## Request the US Dollar monthly exchange rates in Euro
 w_data(dataset_name = "EXR", series_name = "M.USD.EUR.SP00.E")
 or
 w_data("EXR.M.USD.EUR.SP00.E")
 
 ## Request the US Dollar monthly exchange rates in Euro, from May 2017 to April 2018
-w_data(dataset_name = "EXR", series_name = "M.USD.EUR.SP00.E",
-       startPeriod = "2017-05", endPeriod = "2018-04")
+w_data(
+  dataset_name = "EXR", series_name = "M.USD.EUR.SP00.E",
+  startPeriod = "2017-05", endPeriod = "2018-04"
+)
 
 ## Request the three last values of the US Dollar monthly exchange rates in Euro with
 ## all metadata in English
@@ -85,14 +95,12 @@ w_data("EXR", series_name = "D.DKK.EUR.SP00.A+D.GBP.EUR.SP00.A+M.USD.EUR.SP00.A+
 w_data("CPP")
 
 ## Access metadata of the US Dollar monthly exchange rates
-df = w_data(dataset_name = "EXR", series_name = "M.USD.EUR.SP00.E")
-meta = w_meta(df)
+df <- w_data(dataset_name = "EXR", series_name = "M.USD.EUR.SP00.E")
+meta <- w_meta(df)
 
-\dontrun{
 ## Your client ID can be entered as a parameter as follows or saved
 ## in a global variable named "webstat_client_ID" in order to reuse it.
-w_data("CPP", client_ID = "1234abcd-12ab-12ab-12ab-123456abcdef") 
-}
+w_data("CPP", client_ID = "1234abcd-12ab-12ab-12ab-123456abcdef")
 }
 
 }

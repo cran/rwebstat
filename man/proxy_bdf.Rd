@@ -15,7 +15,6 @@ proxy_bdf()
 (It should not do anything if accidentally used outside of the BDF environment.)
 
 Cette fonction permet de configurer R pour se connecter au proxy BDF.
-Il est nécessaire de rentrer son mot de passe INTRA.
-Il faut lancer cette fonction à chaque session.
+Rentrer son mot de passe INTRA et lancer cette fonction à chaque session.
 }
 \keyword{internal}

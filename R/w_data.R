@@ -19,7 +19,7 @@
 #' @param format Optional. String. Defaults to "json".The only other available option is "csv". The "json" option gives a better and cleaner results (POSIX dates, etc). "csv" files are smaller and could be used to request large datasets that generate timeouts. Dataframes might then have to be cleaned manually.
 #' @param base_url Optional. String. Defaults to "https://api.webstat.banque-france.fr/webstat-". For internal testing purposes only.
 #' @param client_ID Optional. String. If you do not specify it when calling the function, it will check if a global variable called "webstat_client_ID" exists and use it. If not, you will be prompted. The easiest way is to save the client ID as a string in a "webstat_client_ID" global variable.
-#' 
+#'
 #' @section Period formats:
 #' \itemize{
 #'   \item Daily/Business YYYY-MM-DD
@@ -31,15 +31,17 @@
 #' @return A dataframe with metadata attributes (that you can access with the w_meta() function)
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' ## Request the US Dollar monthly exchange rates in Euro
 #' w_data(dataset_name = "EXR", series_name = "M.USD.EUR.SP00.E")
 #' or
 #' w_data("EXR.M.USD.EUR.SP00.E")
 #'
 #' ## Request the US Dollar monthly exchange rates in Euro, from May 2017 to April 2018
-#' w_data(dataset_name = "EXR", series_name = "M.USD.EUR.SP00.E",
-#'        startPeriod = "2017-05", endPeriod = "2018-04")
+#' w_data(
+#'   dataset_name = "EXR", series_name = "M.USD.EUR.SP00.E",
+#'   startPeriod = "2017-05", endPeriod = "2018-04"
+#' )
 #'
 #' ## Request the three last values of the US Dollar monthly exchange rates in Euro with
 #' ## all metadata in English
@@ -48,62 +50,60 @@
 #' ## Use wildcards : request all available monthly exchange rates in Euro
 #' ## (at least one dimension must be specified)
 #' w_data(dataset_name = "EXR", series_name = "M.*.EUR.SP00.E")
-#' 
+#'
 #' ## Request more than one serie
 #' w_data("EXR", series_name = "D.DKK.EUR.SP00.A+D.GBP.EUR.SP00.A+M.USD.EUR.SP00.A+M.USD.EUR.SP00.E")
-#' 
+#'
 #' ## Request all series of a dataset
 #' w_data("CPP")
-#' 
+#'
 #' ## Access metadata of the US Dollar monthly exchange rates
-#' df = w_data(dataset_name = "EXR", series_name = "M.USD.EUR.SP00.E")
-#' meta = w_meta(df)
-#' 
-#' \dontrun{
+#' df <- w_data(dataset_name = "EXR", series_name = "M.USD.EUR.SP00.E")
+#' meta <- w_meta(df)
+#'
 #' ## Your client ID can be entered as a parameter as follows or saved
 #' ## in a global variable named "webstat_client_ID" in order to reuse it.
-#' w_data("CPP", client_ID = "1234abcd-12ab-12ab-12ab-123456abcdef") 
+#' w_data("CPP", client_ID = "1234abcd-12ab-12ab-12ab-123456abcdef")
 #' }
-#' }
-#' 
+#'
 #' @import httr
 #' @import dplyr
 #' @import readr
 #' @import getPass
 #' @export
-w_data <- function (dataset_name = NA, series_name = NA, startPeriod = NA, endPeriod = NA, 
-          firstNObs = NA, lastNObs = NA, language = "fr", format="json", 
-          base_url = "https://api.webstat.banque-france.fr/webstat-", client_ID) 
-{
+w_data <- function(dataset_name = NA, series_name = NA, startPeriod = NA, endPeriod = NA,
+                   firstNObs = NA, lastNObs = NA, language = "fr", format = "json",
+                   base_url = "https://api.webstat.banque-france.fr/webstat-", client_ID) {
   # check if dataset is in series_name
-  if (is.na(dataset_name)&is.na(series_name)) {
+  if (is.na(dataset_name) & is.na(series_name)) {
     stop("'dataset_name and/or 'series_name' arguments must be fill'")
   } else if (is.na(dataset_name)) {
-    split_vect <- unlist(strsplit(series_name,"\\."))
-    if (length(split_vect)>1) {
+    split_vect <- unlist(strsplit(series_name, "\\."))
+    if (length(split_vect) > 1) {
       dataset_name <- split_vect[1]
-      series_name <- paste(split_vect[2:length(split_vect)],collapse = ".")
+      series_name <- paste(split_vect[2:length(split_vect)], collapse = ".")
     } else {
       stop("'series_name' argument is not good, must be like 'EXR.M.USD.EUR.SP00.E'")
     }
   } else if (is.na(series_name)) {
-    split_vect <- unlist(strsplit(dataset_name,"\\."))
-    if (length(split_vect)>1) {
+    split_vect <- unlist(strsplit(dataset_name, "\\."))
+    if (length(split_vect) > 1) {
       dataset_name <- split_vect[1]
-      series_name <- paste(split_vect[2:length(split_vect)],collapse = ".")
+      series_name <- paste(split_vect[2:length(split_vect)], collapse = ".")
     }
   }
-  
+
   # check and set client_ID
   client_ID <- check_client_id(client_ID)
-  
+
   # Get content from request
-  url <- make_url_data(dataset_name = dataset_name, series_name = series_name, format=format,
-                  startPeriod = startPeriod, endPeriod = endPeriod, firstNObs = firstNObs,
-                  lastNObs = lastNObs, language = language, base_url = base_url)
+  url <- make_url_data(
+    dataset_name = dataset_name, series_name = series_name, format = format,
+    startPeriod = startPeriod, endPeriod = endPeriod, firstNObs = firstNObs,
+    lastNObs = lastNObs, language = language, base_url = base_url
+  )
   req <- get_data(url, client_ID)
-  out <- parse_request(req, format = format, language =language)
-  out <- out[out$date!=as.POSIXct("1900-01-01"),]
+  out <- parse_request(req, format = format, language = language)
+  out <- out[out$date != as.POSIXct("1900-01-01"), ]
   return(out)
 }
-

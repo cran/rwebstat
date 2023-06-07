@@ -4,8 +4,12 @@
 \alias{w_series_list}
 \title{List the available series from a dataset.}
 \usage{
-w_series_list(dataset_name, language = "fr", client_ID,
-  base_url = "https://api.webstat.banque-france.fr/webstat-")
+w_series_list(
+  dataset_name,
+  language = "fr",
+  client_ID,
+  base_url = "https://api.webstat.banque-france.fr/webstat-"
+)
 }
 \arguments{
 \item{dataset_name}{Mandatory. String (Must be between quotes.) The datasets codes can be determined with the w_datasets() function.}
@@ -28,18 +32,16 @@ You should declare your Webstat client ID in a global "webstat_client_ID" variab
 }
 
 \examples{
-\donttest{
+\dontrun{
 ## Request the list of all series from the BPM6 dataset
 w_series_list("BPM6")
 
 ## Request the list of all series from the CPP dataset, with English metadata
 w_series_list("CPP", language = "en")
 
-\dontrun{
 ## Your client ID can be entered as a parameter as follows or saved
 ## in a global variable named "webstat_client_ID" in order to reuse it.
-w_series_list("CPP", client_ID = "1234abcd-12ab-12ab-12ab-123456abcdef") 
-}
+w_series_list("CPP", client_ID = "1234abcd-12ab-12ab-12ab-123456abcdef")
 }
 
 }
